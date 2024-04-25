@@ -17,11 +17,23 @@ const Register = () => {
             [name]: value,
         });
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // alert(user);
         console.log(user);
-        const response = fetch()
+        try{
+            const response =await fetch(`http://localhost:3000/api/auth/register`,{
+                method:"POST",
+                headers:{
+                    'Content-Type':"application/json",
+
+                },
+                body:JSON.stringify(user),
+            });
+            console.log(response);
+        }catch(error){
+            console.log("register",error);
+        }
     }
     return (
         <>
@@ -54,9 +66,9 @@ const Register = () => {
                                     <label htmlFor="gender" className="font-semibold">Gender</label>
                                     <select className="form-control" name="gender" id="gender" required onChange={handleInput} value={user.gender}>
                                         <option value="" disabled>Select</option>
-                                        <option value="M">Male</option>
-                                        <option value="F">Female</option>
-                                        <option value="O">Other</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
 

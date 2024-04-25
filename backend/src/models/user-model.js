@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+
 const userSchema=new mongoose.Schema({
     name:{
         type:String,
@@ -14,11 +15,19 @@ const userSchema=new mongoose.Schema({
         type:String,
         require:true
     },
+    gender:{
+        type:String,
+    }
+    ,
     role:{
         type:String,
         default:"user"
     },
-});
+},
+{
+    timestamps:true
+}
+);
 
 
 //secure password
