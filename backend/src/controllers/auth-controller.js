@@ -25,7 +25,12 @@ const register= async(req,res)=>{
         const hash_password= await bcrypt.hash(password,saltRound);
 
        const UserCreated = await User.create({name,email,password})
-       res.status(500).json({msg:UserCreated})
+       res.status(201)
+       .json({msg:"Registration Successful",
+        token: await UserCreated.generateToken(),
+        userId:UserCreated._id.toString()
+    });
+
     }
     catch(error){
         res.status(500).json("internal server error")
