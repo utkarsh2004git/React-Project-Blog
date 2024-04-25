@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import bcrypt from "bcryptjs"
 
 const userSchema=new mongoose.Schema({
     name:{
@@ -14,11 +14,28 @@ const userSchema=new mongoose.Schema({
         type:String,
         require:true
     },
-    isAdmin:{
-        type:Boolean,
-        default:false
+    role:{
+        type:String,
+        default:"user"
     },
 });
+
+
+//secure password
+userSchema.pre('save',async function(next){
+    const user=this;
+    if(!user.isModified('password')){
+        next();
+    }
+    try{
+        const saltRound= await bcrypt.genSalt(10);
+        const hash_password=await bcrypt.hash(user.password,saltRound);
+        user.password=hash_password;
+    }   
+    catch(error){
+        next(error);
+    }
+})
 
 
 //define the model or collection

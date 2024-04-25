@@ -1,3 +1,4 @@
+
 import 'dotenv/config';
 import mongoose from 'mongoose';
 
@@ -6,9 +7,11 @@ const options = {
     dbName: process.env.DATABASE_NAME,
 }
 
+
+
 const connectDB= async()=>{
     try{
-        await mongoose.connect(url);
+        await mongoose.connect(url,options);
         console.log("mongo Connection successful!");
     }
     catch(error){
