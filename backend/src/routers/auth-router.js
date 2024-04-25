@@ -8,9 +8,9 @@ const router=express.Router();
 router.route("/").get(authcontrollers.home);
 
 
-router.route("/register").get(authcontrollers.register);
+router.route("/register").post(authcontrollers.register);
 
-router.route("/login").get(authcontrollers.login);
+router.route("/login").post(authcontrollers.login);
 
 
 export default  router;
