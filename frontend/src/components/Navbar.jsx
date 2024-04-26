@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 import "./Navbar.css"
+import { useAuth } from "../store/auth";
+
 const Navbar=()=>{
+    const {isLoggedIn}=useAuth();
+    const myClass=`transition-all duration-300 hover:text-blue-600  hover:underline`
     return(
         <>
         <header>
@@ -10,9 +14,21 @@ const Navbar=()=>{
                 </div>
                 <nav className="flex pr-16">
                     <ul className="flex gap-4 font-bold text-xl">
-                        <li className="transition-all duration-300 hover:text-blue-600  hover:underline"><NavLink to="/">Home</NavLink></li>
-                        <li className="transition-all duration-300 hover:text-blue-600 hover:underline"><NavLink to="/register">Register</NavLink></li>
-                        <li className="transition-all duration-300 hover:text-blue-600 hover:underline"><NavLink to="/login">Login</NavLink></li>
+                    <li className={myClass}><NavLink to="/">Home</NavLink></li>
+                    {isLoggedIn?(<>
+                        <li className={myClass}><NavLink to="/addUser">Add-User</NavLink></li>
+                        <li className={myClass}><NavLink to="/addPost">Add-Post</NavLink></li>
+                        <li className={myClass}><NavLink to="/logout">Logout</NavLink></li>
+                    
+                    </>
+                    ):(
+                       <>
+                        <li className={myClass}><NavLink to="/register">Register</NavLink></li>
+                        <li className={myClass}><NavLink to="/login">Login</NavLink></li>
+                       </>
+                        
+                    )}
+                    
                     </ul>
                 </nav>
             </div>
