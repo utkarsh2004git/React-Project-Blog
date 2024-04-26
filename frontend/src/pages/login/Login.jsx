@@ -1,12 +1,16 @@
 import "./Login.css"
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const URL = `http://localhost:3000/api/auth/login`
+
 const Login=()=>{
     const [user,setUser]=useState({
         email:"",
         password:"",
     });
-
+    const navigate = useNavigate();
     const handleInput=(e)=>{
         let name=e.target.name
         let value=e.target.value
@@ -15,10 +19,33 @@ const Login=()=>{
             [name]:value,
         });
     }
-    const handleSubmit=(e)=>{
+    const handleSubmit=async (e)=>{
         e.preventDefault();
-        // alert(user);
-        console.log(user);
+        try{
+            const response= await fetch(URL,{
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(user)
+
+            });
+
+            console.log("login form :",response);
+
+            if(response.ok){
+                alert("Login successful");
+                setUser({email:"",password:""});
+                navigate("/");
+            }
+            else{
+                alert("Invalid Credentials");
+                console.log("Invalid Credentials");
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
     }
 
     
