@@ -2,16 +2,20 @@ import "./Register.css";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/auth";
 
 const Register = () => {
-    const navigate = useNavigate();
     const [user, setUser] = useState({
         name: "",
         email: "",
         password: "",
         gender: "",
     });
+    
+    const navigate = useNavigate();
 
+    const  {storeTokenInLS}=useAuth();
+    
     const handleInput = (e) => {
         let name = e.target.name;
         let value = e.target.value;
@@ -33,6 +37,11 @@ const Register = () => {
                 body: JSON.stringify(user),
             });
             if (response.ok) {
+                const res_data= await response.json();
+                console.log("response  data ",res_data);
+
+                //local storage token
+                storeTokenInLS(res_data.token);
                 setUser({
                     name: "",
                     email: "",

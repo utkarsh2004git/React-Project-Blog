@@ -2,6 +2,7 @@ import "./Login.css"
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/auth";
 
 const URL = `http://localhost:3000/api/auth/login`
 
@@ -11,6 +12,8 @@ const Login=()=>{
         password:"",
     });
     const navigate = useNavigate();
+    const {storeTokenInLS}=useAuth()
+
     const handleInput=(e)=>{
         let name=e.target.name
         let value=e.target.value
@@ -35,6 +38,9 @@ const Login=()=>{
 
             if(response.ok){
                 alert("Login successful");
+                const res_data=await response.json();
+                //local storage token
+                storeTokenInLS(res_data.token);
                 setUser({email:"",password:""});
                 navigate("/");
             }
