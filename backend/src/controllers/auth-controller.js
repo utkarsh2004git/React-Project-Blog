@@ -14,17 +14,17 @@ const home= async(req,res)=>{
 
 const register= async(req,res)=>{
     try{
-        const {name,email,password}=req.body;
+        const {name,email,password,role}=req.body;
         const userExist= await User.findOne({email:email});
 
         if(userExist){
-            return res.status(400).json({msg:"user already Exist"});
+            return res.status(400).json({msg:"Email already in use"});
         }
 
         const saltRound =10;
         const hash_password= await bcrypt.hash(password,saltRound);
 
-       const UserCreated = await User.create({name,email,password})
+       const UserCreated = await User.create({name,email,password,role})
        res.status(201)
        .json({msg:"Registration Successful",
         token: await UserCreated.generateToken(),
