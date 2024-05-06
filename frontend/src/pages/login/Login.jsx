@@ -38,13 +38,14 @@ const Login = () => {
             console.log("login form :", response);
 
             if (response.ok) {
-                alert("Login successful");
+                // alert("Login successful");
                 const res_data = await response.json();
                 //local storage token
                 storeTokenInLS(res_data.token);
                 setUser({ email: "", password: "" });
                 navigate("/");
-            } else {
+            }
+             else {
                 setLoginError(true); // Set login error state to true
                 console.log("Invalid Credentials");
             }
