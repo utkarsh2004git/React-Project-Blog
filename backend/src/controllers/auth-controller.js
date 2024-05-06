@@ -64,6 +64,19 @@ const login = async (req, res) => {
     }
 };
 
+//User Logic to send user data
 
-const authcontrollers={ home, register,login } 
+const user = async(req,res)=>{
+    try{
+        const userData = req.user;
+        console.log(userData);
+        return res.status(200).json({msg:userData})
+
+    }catch(err){
+        console.log("Error ",err);
+    }
+}
+
+
+const authcontrollers={ home, register,login,user } 
 export default authcontrollers ;
