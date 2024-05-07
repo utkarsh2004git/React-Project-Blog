@@ -2,7 +2,7 @@ import express from "express";
 import router from "./routers/auth-router.js";
 import connectDB from "../utils/db.js";
 import cors from "cors";
-
+import adminRoute from "./routers/admin-router.js"
 const app = express();
 
 // Configure CORS
@@ -17,6 +17,7 @@ const corsOptions = {
 
 app.use(express.json());
 app.use("/api/auth", router);
+app.use("/api/admin", adminRoute);
 
 const PORT = 3000;
 connectDB().then(() => {
