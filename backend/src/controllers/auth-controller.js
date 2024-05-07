@@ -14,7 +14,7 @@ const home= async(req,res)=>{
 
 const register= async(req,res)=>{
     try{
-        const {name,email,password,role}=req.body;
+        const {name,email,password,role,gender}=req.body;
         const userExist= await User.findOne({email:email});
 
         if(userExist){
@@ -24,7 +24,7 @@ const register= async(req,res)=>{
         const saltRound =10;
         const hash_password= await bcrypt.hash(password,saltRound);
 
-       const UserCreated = await User.create({name,email,password,role})
+       const UserCreated = await User.create({name,email,password,role,gender})
        res.status(201)
        .json({msg:"Registration Successful",
         token: await UserCreated.generateToken(),

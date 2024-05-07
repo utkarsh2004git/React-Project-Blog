@@ -8,6 +8,7 @@ import Register from './pages/register/Register'
 import Navbar from './components/Navbar'
 import Logout from './pages/logout/Logout'
 import Footer from './components/Footer'
+import ViewUsers from './pages/user/ViewUsers'
 function App() {
 
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/admin/viewUsers" element={<ViewUsers />} />
         </Routes>
       <Footer/>
       </BrowserRouter>

@@ -21,10 +21,10 @@ const Register = () => {
     
     const handleInput = (e) => {
         const { name, value } = e.target;
-        setUser({
-            ...user,
+        setUser(prevUser => ({
+            ...prevUser,
             [name]: value,
-        });
+        }));
     };
 
     const handleSubmit = async (e) => {

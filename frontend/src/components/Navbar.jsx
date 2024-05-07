@@ -21,15 +21,15 @@ const Navbar = () => {
                                 {isAdmin && <li className="dropdown">
                                     <span className={`${myClass} cursor-pointer`}>User</span>
                                     <ul className="dropdown-content bg-blue-200 border-2 shadow-md border-blue-600">
-                                        <li className={`hover:bg-blue`}><NavLink to="/api/admin/addUser">Add User</NavLink></li>
-                                        <li className=""><NavLink to="/api/admin/viewUser">View User</NavLink></li>
+                                        <li className={`hover:bg-blue`}><NavLink to="/admin/addUser">Add User</NavLink></li>
+                                        <li className=""><NavLink to="/admin/viewUsers">View User</NavLink></li>
                                     </ul>
                                 </li>}
                                 {isAdmin &&<li className="dropdown">
                                 <span className={`${myClass} cursor-pointer`}>Posts</span>
                                     <ul className="dropdown-content bg-blue-200 border-2 shadow-md border-blue-600">
-                                        <li className=""><NavLink to="/api/admin/addPost">Add Post</NavLink></li>
-                                        <li className=""><NavLink to="/api/admin/viewPost">View Post</NavLink></li>
+                                        <li className=""><NavLink to="/admin/addPost">Add Post</NavLink></li>
+                                        <li className=""><NavLink to="/admin/viewPost">View Post</NavLink></li>
                                     </ul>
                                 </li>}
                                 <li className={myClass}><NavLink to="/logout">Logout</NavLink></li>

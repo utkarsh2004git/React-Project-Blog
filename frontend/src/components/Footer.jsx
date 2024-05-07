@@ -6,35 +6,35 @@ const Footer = () => {
                     <a href="https://github.com/utkarsh2004git" target="_blank">
                         <img
                             className="h-10 transition-all hover:scale-125 duration-500"
-                            src='github.svg'
+                            src='/github.svg'
                             alt="github"
                         />
                     </a>
                     <a href="https://www.instagram.com/utkarsh_001122/" target="_blank">
                         <img
                             className="h-10 transition-all hover:scale-125 duration-500"
-                            src='insta.svg'
+                            src='/insta.svg'
                             alt="insta"
                         />
                     </a>
                     <a href="https://www.linkedin.com/in/utkarsh-shahare-7b4109214/" target="_blank">
                         <img
                             className="h-10 transition-all hover:scale-125 duration-500"
-                            src='linkedin.svg'
+                            src='/linkedin.svg'
                             alt="linkedin"
                         />
                     </a>
                     <a href="https://codepen.io/utkarsh_001122" target="_blank">
                         <img
                             className="h-10 transition-all hover:scale-125 duration-500"
-                            src='codepen.svg'
+                            src='/codepen.svg'
                             alt="codepen"
                         />
                     </a>
                     <a href="https://www.google.com" target="_blank">
                         <img
                             className="h-10 transition-all hover:scale-125 duration-500"
-                            src='google.svg'
+                            src='/google.svg'
                             alt="google"
                         />
                     </a>

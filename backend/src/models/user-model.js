@@ -21,7 +21,7 @@ const userSchema=new mongoose.Schema({
     ,
     role:{
         type:String,
-        default:"user"
+        default:"User"
     },
 },
 {
@@ -53,7 +53,7 @@ userSchema.methods.generateToken = function(){
         return jwt.sign({
             userId:this._id.toString(),
             email:this.email,
-            role:this.role
+            role:this.role,
         },
         process.env.JWT_AUTH_SECRET,
         {expiresIn:"1d"}
