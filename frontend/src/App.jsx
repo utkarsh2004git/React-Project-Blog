@@ -10,6 +10,8 @@ import Logout from './pages/logout/Logout'
 import Footer from './components/Footer'
 import ViewUsers from './pages/user/ViewUsers'
 import AddUser from './pages/user/AddUser'
+import AdminUpdateUser from './pages/user/Admin-Update-User'
+
 function App() {
 
   return (
@@ -24,6 +26,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/admin/viewUsers" element={<ViewUsers />} />
           <Route path="/admin/adduser" element={<AddUser />} />
+          <Route path="/admin/viewUsers/editUser/:id" element={<AdminUpdateUser />} />
         </Routes>
       <Footer/>
       </BrowserRouter>
