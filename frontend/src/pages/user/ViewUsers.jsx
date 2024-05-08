@@ -98,6 +98,7 @@ const ViewUser = () => {
 
   return (
     <>
+    <div className="absolute right-0 bg-green-600 text-white p-2 mt-2 mr-9 rounded-lg"><a href="addUser">Add User</a></div>
       <div className="container text-center">
         <div className="btn-group pt-3">
           <button
@@ -115,6 +116,7 @@ const ViewUser = () => {
             Admins
           </button>
         </div>
+        
         <table className="table">
           <thead>
             <tr>
