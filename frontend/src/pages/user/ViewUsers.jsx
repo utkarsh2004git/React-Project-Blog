@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Swal from "sweetalert2"
 
 const ViewUser = () => {
   const [users, setUsers] = useState([]);
@@ -7,42 +8,58 @@ const ViewUser = () => {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("User"); // Initial filter
 
-
-
+  const handleClick = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const token = localStorage.getItem("token");
+          const headers = token ? { Authorization: token } : {};
+          const response = await fetch(`http://localhost:3000/api/admin/viewUsers/deleteUser/${id}`, {
+            method: "DELETE",
+            headers,
+          });
+  
+          if (!response.ok) {
+            throw new Error("Failed to delete user");
+          }
+  
+          // Successful deletion:
+          // 1. Update UI immediately (optimistic update)
+          setUsers(users.filter((user) => user._id !== id));
+  
+          // 2. (Optional) Fetch updated data from server for confirmation (pessimistic update)
+          const confirmedResponse = await fetch(`http://localhost:3000/api/admin/viewUsers`, { headers });
+          if (confirmedResponse.ok) {
+            const confirmedData = await confirmedResponse.json();
+            setUsers(confirmedData); // Update with confirmed users
+          } else {
+            console.error("Failed to confirm user deletion from server");
+            // Handle potential rollback or user notification in case of confirmation failure
+          }
+          
+          Swal.fire("Deleted!", "Your file has been deleted.", "success");
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          setError("Failed to delete user");
+          Swal.fire("Error", "Failed to delete user", "error");
+        }
+      }
+    });
+  };
   
   // Delete logic
-  const handleDelete = async (id) => {
-    const token = localStorage.getItem("token");
-    const headers = token ? { Authorization: token } : {};
-
-    try {
-      const response = await fetch(`http://localhost:3000/api/admin/viewUsers/deleteUser/${id}`, {
-        method: "DELETE",
-        headers,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete user");
-      }
-
-      // Successful deletion:
-      // 1. Update UI immediately (optimistic update)
-      setUsers(users.filter((user) => user._id !== id));
-
-      // 2. (Optional) Fetch updated data from server for confirmation (pessimistic update)
-      const confirmedResponse = await fetch(`http://localhost:3000/api/admin/viewUsers`, { headers });
-      if (confirmedResponse.ok) {
-        const confirmedData = await confirmedResponse.json();
-        setUsers(confirmedData); // Update with confirmed users
-      } else {
-        console.error("Failed to confirm user deletion from server");
-        // Handle potential rollback or user notification in case of confirmation failure
-      }
-    } catch (error) {
-      console.error("Error deleting user:", error);
-      setError("Failed to delete user");
-    }
+  const handleDelete = (id) => {
+    handleClick(id);
   };
+  
 
   useEffect(() => {
     const fetchData = async () => {
