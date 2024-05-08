@@ -12,6 +12,7 @@ import ViewUsers from './pages/user/ViewUsers'
 import AddUser from './pages/user/AddUser'
 import AdminUpdateUser from './pages/user/Admin-Update-User'
 import AddPost from './pages/post/AddPost'
+import Error from "./pages/error/Error"
 
 function App() {
 
@@ -29,6 +30,10 @@ function App() {
           <Route path="/admin/adduser" element={<AddUser />} />
           <Route path="/admin/viewUsers/editUser/:id" element={<AdminUpdateUser />} />
           <Route path="/admin/addPost" element={<AddPost />} />
+
+
+          <Route path="*" element={<Error />} />
+
         </Routes>
       <Footer/>
       </BrowserRouter>
