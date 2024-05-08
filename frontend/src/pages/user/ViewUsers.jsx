@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Import Link component
 import "bootstrap/dist/css/bootstrap.min.css";
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
 
 const ViewUser = () => {
   const [users, setUsers] = useState([]);
@@ -98,7 +99,9 @@ const ViewUser = () => {
 
   return (
     <>
-    <div className="absolute right-0 bg-green-600 text-white p-2 mt-2 mr-9 rounded-lg"><a href="addUser">Add User</a></div>
+      <div className="absolute right-0 bg-green-600 text-white p-2 mt-2 mr-9 rounded-lg">
+        <Link to="addUser">Add User</Link>
+      </div>
       <div className="container text-center">
         <div className="btn-group pt-3">
           <button
@@ -136,9 +139,11 @@ const ViewUser = () => {
                 <td>{user.role}</td>
                 {filter !== "Admin" && (
                   <td>
-                    <button type="button" className="btn btn-primary mx-1" onClick={() => handleEdit(user)}>
-                      Edit
-                    </button>
+                    <Link to={`/admin/viewUsers/editUser/${user._id}`}> {/* Pass user._id as URL parameter */}
+                      <button type="button" className="btn btn-primary mx-1">
+                        Edit
+                      </button>
+                    </Link>
                     <button type="button" className="btn btn-danger mx-1" onClick={() => handleDelete(user._id)}>
                       Delete
                     </button>

@@ -29,3 +29,17 @@ export const deleteUserById=async (req,res)=>{
         next(error)
     }
 }
+
+//get user by id
+
+export const getUserById=async (req,res)=>{
+    try {
+        
+        const id =req.params.id;
+       const fetchedUserData =  await User.findOne({_id:id},{password:0});
+        return res.status(200).json(fetchedUserData)
+
+    } catch (error) {
+        next(error)
+    }
+}
