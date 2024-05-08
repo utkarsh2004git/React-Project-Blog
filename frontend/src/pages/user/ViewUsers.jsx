@@ -7,12 +7,49 @@ const ViewUser = () => {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("User"); // Initial filter
 
+
+
+  
+  // Delete logic
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+    const headers = token ? { Authorization: token } : {};
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/admin/viewUsers/deleteUser/${id}`, {
+        method: "DELETE",
+        headers,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete user");
+      }
+
+      // Successful deletion:
+      // 1. Update UI immediately (optimistic update)
+      setUsers(users.filter((user) => user._id !== id));
+
+      // 2. (Optional) Fetch updated data from server for confirmation (pessimistic update)
+      const confirmedResponse = await fetch(`http://localhost:3000/api/admin/viewUsers`, { headers });
+      if (confirmedResponse.ok) {
+        const confirmedData = await confirmedResponse.json();
+        setUsers(confirmedData); // Update with confirmed users
+      } else {
+        console.error("Failed to confirm user deletion from server");
+        // Handle potential rollback or user notification in case of confirmation failure
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      setError("Failed to delete user");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem("token");
         const headers = token ? { Authorization: token } : {};
-        const response = await fetch("http://localhost:3000/api/admin/viewUsers", { headers });
+        const response = await fetch(`http://localhost:3000/api/admin/viewUsers`, { headers });
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
@@ -45,7 +82,7 @@ const ViewUser = () => {
   return (
     <>
       <div className="container text-center">
-      <div className="btn-group pt-3">
+        <div className="btn-group pt-3">
           <button
             type="button"
             className={`btn btn-outline-primary ${filter === "User" ? "active border border-primary" : ""}`}
