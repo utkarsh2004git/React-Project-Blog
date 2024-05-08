@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Import Link component
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
-
+import { useAuth } from "../../store/auth";
+import { useNavigate } from "react-router-dom";
+import timeSince from "../../assets/TimeStamp";
 const ViewUser = () => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("User"); // Initial filter
+
+  const { user } = useAuth();
+  const navigate= useNavigate();
 
   const handleClick = (id) => {
     Swal.fire({
@@ -96,12 +101,15 @@ const ViewUser = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-
+  if(user.role!="Admin"){
+    navigate("/error");
+    return;
+}
   return (
     <>
-      <div className="absolute right-0 bg-green-600 text-white p-2 mt-2 mr-9 rounded-lg">
+      {/* <div className="absolute right-0 bg-green-600 text-white p-2 mt-2 mr-9 rounded-lg">
         <Link to="/admin/addUser">Add User</Link>
-      </div>
+      </div> */}
       <div className="container text-center">
         <div className="btn-group pt-3">
           <button
@@ -127,6 +135,8 @@ const ViewUser = () => {
               <th>Email</th>
               <th>Gender</th>
               <th>Role</th>
+              <th>Created</th>
+              {filter !== "Admin" && <th>Updated</th>} {/* Show only if not Admin */}
               {filter !== "Admin" && <th>Action</th>} {/* Show only if not Admin */}
             </tr>
           </thead>
@@ -137,6 +147,14 @@ const ViewUser = () => {
                 <td>{user.email}</td>
                 <td>{user.gender}</td>
                 <td>{user.role}</td>
+                <td>{timeSince(user.createdAt)}</td>
+                {filter !== "Admin" &&(
+                  <td>
+                    {timeSince(user.updatedAt)}
+                  </td>
+                )
+
+                }
                 {filter !== "Admin" && (
                   <td>
                     <Link to={`/admin/viewUsers/editUser/${user._id}`}> {/* Pass user._id as URL parameter */}
