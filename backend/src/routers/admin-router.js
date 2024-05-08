@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllUsers,deleteUserById,getUserById,updateUserById } from "../controllers/admin-controller.js";
+import { getAllUsers,deleteUserById,getUserById,updateUserById,addPost } from "../controllers/admin-controller.js";
 import authMiddleware from "../middlewares/auth-middleware.js";
 import adminMiddleware from "../middlewares/admin-middleware.js";
 
@@ -16,5 +16,12 @@ router.route('/viewUsers/editUser/:id').patch(authMiddleware,adminMiddleware, up
 
 //delete route
 router.route('/viewUsers/deleteUser/:id').delete(authMiddleware,adminMiddleware,deleteUserById)
+
+
+
+
+//for post
+router.route('/addPost').post(authMiddleware,adminMiddleware, addPost);
+
 
 export default router;

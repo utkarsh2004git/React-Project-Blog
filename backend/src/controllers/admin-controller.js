@@ -1,3 +1,4 @@
+import Post from "../models/post-model.js";
 import User from "../models/user-model.js";
 
 
@@ -61,3 +62,24 @@ export const updateUserById=async (req,res)=>{
         next(error)
     }
 }
+
+
+
+//add Post
+
+export const addPost=async(req,res)=>{
+    try {
+        console.log(req.body)
+        const {userId,author,title,detail}=req.body;
+
+
+        const PostCreated=await Post.create({userId,author,title,detail});
+        res.status(201)
+        .json({msg:"Posted Successful",
+         token: await PostCreated.generateToken(),
+         postId:PostCreated._id.toString()})
+    } catch (error) {
+        res.status(500).json("internal server error")
+    }
+}
+
