@@ -15,6 +15,7 @@ import AddPost from './pages/post/AddPost'
 import Error from "./pages/error/Error"
 import ViewPost from './pages/post/ViewPost'
 import YourPosts from './pages/post/YourPosts'
+import AdminUpdatePost from './pages/post/Admin-Update-Post'
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
 
 
           <Route path="/admin/yourPosts" element={<YourPosts />} />
+          <Route path="/admin/yourPosts/editPost/:id" element={<AdminUpdatePost />} />
 
 
 

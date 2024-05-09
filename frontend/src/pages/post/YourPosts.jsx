@@ -152,7 +152,7 @@ const YourPosts = () => {
 
                 {user._id === post.userId && (
                   <td>
-                    <Link to={`/admin/viewUsersyourPosts/editPost/${post._id}`}>
+                    <Link to={`/admin/yourPosts/editPost/${post._id}`}>
                       <button type="button" className="btn btn-primary mx-1">
                         Edit
                       </button>

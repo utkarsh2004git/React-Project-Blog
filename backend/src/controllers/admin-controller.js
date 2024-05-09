@@ -82,7 +82,14 @@ const getPostById = async (req, res, next) => {
 };
 
 const updatePostById = async (req, res, next) => {
-    // Implement this function
+    try {
+        const id = req.params.id;
+        const updatedPostData = req.body;
+        const updatedData = await Post.updateOne({ _id: id }, { $set: updatedPostData });
+        return res.status(200).json(updatedData);
+    } catch (error) {
+        next(error);
+    }
 };
 
 const deletePostById = async (req, res, next) => {

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Swal from "sweetalert2"; // Import Swal for displaying alerts
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../store/auth";
 
 const AdminUpdateUser = () => {
   const [data, setData] = useState({
@@ -13,11 +14,12 @@ const AdminUpdateUser = () => {
   });
   const params = useParams();
   const navigate=useNavigate();
+  const {authorizationToken}=useAuth();
   // Fetch single user data based on ID
   const getSingleUserData = async () => {
     try {
       const token = localStorage.getItem("token");
-      const headers = token ? { "Content-Type": "application/json", Authorization: token } : {};
+      const headers = token ? { "Content-Type": "application/json", Authorization: authorizationToken } : {};
       const response = await fetch(`http://localhost:3000/api/admin/viewUsers/editUser/${params.id}`, {
         method: "GET",
         headers,
@@ -54,16 +56,14 @@ const AdminUpdateUser = () => {
         e.preventDefault();
         
         try {
-          const token = localStorage.getItem("token");
+          const token = authorizationToken;
           const headers = token ? { 
             Authorization: token,
             "Content-Type": "application/json" 
           } : {};
           
-          // Construct the request body with updated data
           const requestBody = JSON.stringify(data);
       
-          // Send PATCH request with updated data
           const response = await fetch(`http://localhost:3000/api/admin/viewUsers/editUser/${params.id}`, {
             method: "PATCH",
             headers,
