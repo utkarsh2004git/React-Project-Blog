@@ -40,9 +40,6 @@ const Home = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const handleViewPost = (postId) => {
-        console.log("View button clicked for post:", postId);
-    };
 
     return (
         <>

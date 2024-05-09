@@ -28,7 +28,6 @@ const AddPost = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem("token");
-        console.log("Submitted post:", post);
         const response = await fetch(`http://localhost:3000/api/admin/addPost`, {
             method: "POST",
             headers: {

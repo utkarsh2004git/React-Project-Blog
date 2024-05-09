@@ -40,7 +40,6 @@ app.get('/viewPost/:id', async (req, res, next) => {
         if (!post) {
             return res.status(404).json({ message: "No post found" });
         }
-        console.log(post);
         return res.status(200).json(post);
     } catch (error) {
         next(error);

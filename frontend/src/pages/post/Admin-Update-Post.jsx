@@ -24,7 +24,7 @@ const AdminUpdatePost = () => {
         headers,
       });
       const postData = await response.json();
-      console.log(postData);
+
       setData({
         title: postData.title,
         detail: postData.detail,

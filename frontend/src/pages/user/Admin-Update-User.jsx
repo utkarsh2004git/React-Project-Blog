@@ -25,7 +25,6 @@ const AdminUpdateUser = () => {
         headers,
       });
       const userData = await response.json();
-      console.log(userData);
       setData({
         name: userData.name,
         email: userData.email,
@@ -95,7 +94,7 @@ const AdminUpdateUser = () => {
             </label>
             <input
               type="text"
-              className="form-control"
+              className="form-control border-2 border-blue-300"
               id="name"
               name="name"
               value={data.name}
@@ -108,11 +107,11 @@ const AdminUpdateUser = () => {
             </label>
             <input
               type="email"
-              className="form-control"
+              className="form-control border-2 border-blue-300"
               id="email"
               name="email"
               value={data.email}
-              onChange={handleInput}
+              disabled
 
 
             />
@@ -122,7 +121,7 @@ const AdminUpdateUser = () => {
               Gender
             </label>
             <select
-              className="form-control"
+              className="form-control border-2 border-blue-300"
               id="gender"
               name="gender"
               value={data.gender}
@@ -135,11 +134,11 @@ const AdminUpdateUser = () => {
             </select>
           </div>
           <div className="mb-3">
-            <label htmlFor="role" className="form-label">
+            <label htmlFor="role" className="form-label ">
               Role
             </label>
             <select
-              className="form-control"
+              className="form-control border-2 border-blue-300"
               id="role"
               name="role"
               value={data.role}
