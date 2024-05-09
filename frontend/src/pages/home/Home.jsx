@@ -72,7 +72,7 @@ const Home = () => {
                                         <div className="">
                                             <div className="bg-slate-600 w-fit px-4 py-1 text-3xl rounded-2xl text-white"><h5 className="card-title">{post.title}</h5></div>
                                             <div className="bg-white my-2 h-28 p-3 rounded-2xl">
-                                                <p className="card-text">{post.detail.slice(0, 30)}. . .</p>
+                                                <p className="card-text">{post.detail.slice(0, 120)}. . .</p>
                                             </div>
                                         </div>
                                         <div>
