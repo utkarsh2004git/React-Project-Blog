@@ -62,7 +62,7 @@ const seedUsers = async () => {
         _id: userId2,
         name: 'My_Utkarsh',
         email: 'myutkarsh@123',
-        password: '123',
+        password: '456',
         gender: 'Male',
         role: 'Admin',
       }
