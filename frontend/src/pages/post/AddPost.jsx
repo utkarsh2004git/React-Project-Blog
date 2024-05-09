@@ -13,7 +13,10 @@ const AddPost = () => {
         title: "", // Define title state
         detail: "", // Define detail state
     });
-
+    if(user.role!="Admin"){
+        navigate("/error");
+        return;
+    }
     const handleInput = (e) => {
         const { name, value } = e.target;
         setPost(prevPost => ({

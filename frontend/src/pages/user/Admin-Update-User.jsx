@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2"; // Import Swal for displaying alerts
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom";
 
 const AdminUpdateUser = () => {
   const [data, setData] = useState({
@@ -11,7 +12,7 @@ const AdminUpdateUser = () => {
     gender: "",
   });
   const params = useParams();
-
+  const navigate=useNavigate();
   // Fetch single user data based on ID
   const getSingleUserData = async () => {
     try {
@@ -71,6 +72,7 @@ const AdminUpdateUser = () => {
       
           if (response.ok) {
             Swal.fire("Updated!", "User updated successfully!", "success");
+            navigate('/admin/viewUsers');
           } else {
             const errorData = await response.json(); 
             Swal.fire("Error!", errorData.message || "An error occurred while updating the user.", "error");

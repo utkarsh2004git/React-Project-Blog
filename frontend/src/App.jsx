@@ -13,6 +13,8 @@ import AddUser from './pages/user/AddUser'
 import AdminUpdateUser from './pages/user/Admin-Update-User'
 import AddPost from './pages/post/AddPost'
 import Error from "./pages/error/Error"
+import ViewPost from './pages/post/ViewPost'
+import YourPosts from './pages/post/YourPosts'
 
 function App() {
 
@@ -32,6 +34,11 @@ function App() {
           <Route path="/admin/addPost" element={<AddPost />} />
 
 
+          <Route path="/admin/yourPosts" element={<YourPosts />} />
+
+
+
+          <Route path="/error" element={<Error />} />
           <Route path="*" element={<Error />} />
 
         </Routes>
