@@ -29,7 +29,7 @@ const ViewUser = () => {
       if (result.isConfirmed) {
         try {
           const token = localStorage.getItem("token");
-          const headers = token ? { Authorization: AuthorizationToken } : {};
+          const headers = token ? { Authorization: authorizationToken } : {};
           const response = await fetch(`http://localhost:3000/api/admin/viewUsers/deleteUser/${id}`, {
             method: "DELETE",
             headers,
@@ -38,19 +38,14 @@ const ViewUser = () => {
           if (!response.ok) {
             throw new Error("Failed to delete user");
           }
-
-          // Successful deletion:
-          // 1. Update UI immediately (optimistic update)
           setUsers(users.filter((user) => user._id !== id));
 
-          // 2. (Optional) Fetch updated data from server for confirmation (pessimistic update)
           const confirmedResponse = await fetch(`http://localhost:3000/api/admin/viewUsers`, { headers });
           if (confirmedResponse.ok) {
             const confirmedData = await confirmedResponse.json();
-            setUsers(confirmedData); // Update with confirmed users
+            setUsers(confirmedData);
           } else {
             console.error("Failed to confirm user deletion from server");
-            // Handle potential rollback or user notification in case of confirmation failure
           }
 
           Swal.fire("Deleted!", "Your file has been deleted.", "success");

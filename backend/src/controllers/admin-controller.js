@@ -1,10 +1,7 @@
 import Post from "../models/post-model.js";
 import User from "../models/user-model.js";
 
-
-//get all users
-
-export const getAllUsers = async (req, res, next) => {
+const getAllUsers = async (req, res, next) => {
     try {
         const users = await User.find({}, { password: 0 });
         if (!users || users.length === 0) {
@@ -16,77 +13,53 @@ export const getAllUsers = async (req, res, next) => {
     }
 };
 
-
-//delete User
-
-export const deleteUserById=async (req,res)=>{
+const deleteUserById = async (req, res, next) => {
     try {
-        
-        const id =req.params.id;
-        await User.deleteOne({_id:id});
-        return res.status(200).json({message:"User deleted Successfully!"})
-
+        const id = req.params.id;
+        await User.deleteOne({ _id: id });
+        return res.status(200).json({ message: "User deleted Successfully!" });
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
 
-//get user by id
-
-export const getUserById=async (req,res)=>{
+const getUserById = async (req, res, next) => {
     try {
-        
-        const id =req.params.id;
-       const fetchedUserData =  await User.findOne({_id:id},{password:0});
-        return res.status(200).json(fetchedUserData)
-
+        const id = req.params.id;
+        const fetchedUserData = await User.findOne({ _id: id }, { password: 0 });
+        return res.status(200).json(fetchedUserData);
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
 
-
-//update User
-
-export const updateUserById=async (req,res)=>{
+const updateUserById = async (req, res, next) => {
     try {
-        
-        const id =req.params.id;
-        const updatedUserData=req.body;
-        const  updatedData=await User.updateOne({_id:id},{
-            $set:updatedUserData,
-        })
-        return res.status(200).json(updatedData)
-
+        const id = req.params.id;
+        const updatedUserData = req.body;
+        const updatedData = await User.updateOne({ _id: id }, { $set: updatedUserData });
+        return res.status(200).json(updatedData);
     } catch (error) {
-        next(error)
+        next(error);
     }
-}
+};
 
-
-
-//add Post
-
-export const addPost=async(req,res)=>{
+const addPost = async (req, res, next) => {
     try {
-        console.log(req.body)
-        const {userId,author,title,detail}=req.body;
-
-
-        const PostCreated=await Post.create({userId,author,title,detail});
-        res.status(201)
-        .json({msg:"Posted Successful",
-         token: await PostCreated.generateToken(),
-         postId:PostCreated._id.toString()})
+        console.log(req.body);
+        const { userId, author, title, detail } = req.body;
+        const PostCreated = await Post.create({ userId, author, title, detail });
+        res.status(201).json({
+            msg: "Posted Successful",
+            token: await PostCreated.generateToken(),
+            postId: PostCreated._id.toString()
+        });
     } catch (error) {
-        res.status(500).json("internal server error")
+        res.status(500).json("internal server error");
     }
-}
+};
 
-
-//get all posts
-
-export const getAllPosts=async(req,res)=>{
+const getAllPosts = async (req, res, next) => {
     try {
         const posts = await Post.find({});
         if (!posts || posts.length === 0) {
@@ -96,5 +69,43 @@ export const getAllPosts=async(req,res)=>{
     } catch (error) {
         next(error);
     }
+};
 
-}
+const getPostById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const fetchedPostData = await Post.findOne({ _id: id });
+        return res.status(200).json(fetchedPostData);
+    } catch (error) {
+        next(error);
+    }
+};
+
+const updatePostById = async (req, res, next) => {
+    // Implement this function
+};
+
+const deletePostById = async (req, res, next) => {
+    try {
+        const id=req.params.id;
+        await Post.deleteOne({ _id: id });
+        return res.status(200).json({ message: "Post deleted Successfully!" });
+        
+    } catch (error) {
+        next(error)
+    }
+};
+
+const adminController = {
+    getAllPosts,
+    getAllUsers,
+    getPostById,
+    getUserById,
+    deletePostById,
+    deleteUserById,
+    updatePostById,
+    updateUserById,
+    addPost
+};
+
+export default adminController;
