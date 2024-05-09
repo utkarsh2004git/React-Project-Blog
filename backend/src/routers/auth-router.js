@@ -6,6 +6,7 @@ import authMiddleware from "../middlewares/auth-middleware.js"
 const router=express.Router();
 
 router.route("/").get(authcontrollers.home);
+// router.route("/viewPost").get(authcontrollers.home);
 
 
 router.route("/register").post(authcontrollers.register);

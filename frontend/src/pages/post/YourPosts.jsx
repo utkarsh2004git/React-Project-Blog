@@ -112,6 +112,7 @@ const YourPosts = () => {
 
 
 
+
   return (
     <>
       <div className="container text-center">
@@ -140,6 +141,7 @@ const YourPosts = () => {
               <th>Created</th>
               <th>Updated</th>
               <th>Action</th>
+              <th>View Post</th>
             </tr>
           </thead>
           <tbody>
@@ -169,6 +171,9 @@ const YourPosts = () => {
                     </td>
                   )
                 }
+                <td>
+                  <button className="btn btn-info text-black">View</button>
+                </td>
               </tr>
             ))}
           </tbody>

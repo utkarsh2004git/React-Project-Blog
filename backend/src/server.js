@@ -3,6 +3,7 @@ import router from "./routers/auth-router.js";
 import connectDB from "../utils/db.js";
 import cors from "cors";
 import adminRoute from "./routers/admin-router.js"
+import Post from "./models/post-model.js";
 const app = express();
 
 // Configure CORS
@@ -18,6 +19,20 @@ const corsOptions = {
 app.use(express.json());
 app.use("/api/auth", router);
 app.use("/api/admin", adminRoute);
+
+app.get('/api/public/posts',async (req, res) => {
+    try {
+        const posts = await Post.find({});
+        if (!posts || posts.length === 0) {
+            return res.status(404).json({ message: "No post" });
+        }
+        return res.status(200).json(posts);
+    } catch (error) {
+        next(error);
+    }
+    res.json(data);
+});
+
 
 const PORT = 3000;
 connectDB().then(() => {

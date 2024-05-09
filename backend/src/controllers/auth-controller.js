@@ -1,11 +1,13 @@
+import Post from "../models/post-model.js";
 import User from "../models/user-model.js";
 import bcrypt from "bcryptjs"
 const home= async(req,res)=>{
     try{
-        res.status(200)
-        .send(
-            "Welcome to my server"
-        );
+        const posts = await Post.find({});
+        if (!posts || posts.length === 0) {
+            return res.status(404).json({ message: "No post" });
+        }
+        return res.status(200).json(posts);
     }
     catch(error){
         res.status(400).send({msg:"Page not found"})
