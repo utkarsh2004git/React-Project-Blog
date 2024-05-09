@@ -22,7 +22,7 @@ app.use("/api/admin", adminRoute);
 
 app.get('/api/public/posts',async (req, res) => {
     try {
-        const posts = await Post.find({});
+        const posts = await Post.find({}).sort({createdAt:-1});
         if (!posts || posts.length === 0) {
             return res.status(404).json({ message: "No post" });
         }

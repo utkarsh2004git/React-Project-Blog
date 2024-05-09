@@ -3,7 +3,7 @@ import User from "../models/user-model.js";
 
 const getAllUsers = async (req, res, next) => {
     try {
-        const users = await User.find({}, { password: 0 });
+        const users = await User.find({}, { password: 0 }).sort({createdAt:-1});
         if (!users || users.length === 0) {
             return res.status(404).json({ message: "No users" });
         }
@@ -61,7 +61,7 @@ const addPost = async (req, res, next) => {
 
 const getAllPosts = async (req, res, next) => {
     try {
-        const posts = await Post.find({});
+        const posts = await Post.find({}).sort({ createdAt: -1 }); 
         if (!posts || posts.length === 0) {
             return res.status(404).json({ message: "No post" });
         }
@@ -70,6 +70,7 @@ const getAllPosts = async (req, res, next) => {
         next(error);
     }
 };
+
 
 const getPostById = async (req, res, next) => {
     try {
