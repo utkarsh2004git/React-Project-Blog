@@ -28,7 +28,7 @@ const ViewUser = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const token = localStorage.getItem("token");
+          const token = authorizationToken;
           const headers = token ? { Authorization: authorizationToken } : {};
           const response = await fetch(`http://localhost:3000/api/admin/viewUsers/deleteUser/${id}`, {
             method: "DELETE",

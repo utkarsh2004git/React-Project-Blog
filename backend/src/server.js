@@ -33,6 +33,20 @@ app.get('/api/public/posts',async (req, res) => {
     res.json(data);
 });
 
+app.get('/viewPost/:id', async (req, res, next) => {
+    try {
+        const postId = req.params.id;
+        const post = await Post.findOne({ _id: postId });
+        if (!post) {
+            return res.status(404).json({ message: "No post found" });
+        }
+        console.log(post);
+        return res.status(200).json(post);
+    } catch (error) {
+        next(error);
+    }
+});
+
 
 const PORT = 3000;
 connectDB().then(() => {

@@ -2,44 +2,53 @@ import "./Home.css";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useAuth } from "../../store/auth";
-
+import { Link } from "react-router-dom";
+import timeSince from "../../assets/TimeStamp";
 const Home = () => {
-    const [posts, setPosts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const {user}=useAuth();
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/api/public/posts`, {
-                    method: "GET",
-                    headers: {}
-                });
-                if (!response.ok) {
-                    throw new Error("Failed to fetch data");
-                }
-                const data = await response.json();
-                setPosts(data);
-                setIsLoading(false);
-            } catch (error) {
-                setError(error.message);
-                setIsLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(6); // Number of posts per page
+  const { user } = useAuth();
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/api/public/posts", {
+          method: "GET",
+          headers: {},
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    fetchData();
+  }, []);
 
-    return (
-        <div>
-        <div className="p-4 rounded-lg ">
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleViewPost = (postId) => {
+    console.log("View button clicked for post:", postId);
+  };
+
+  return (
+    <>
+    <div className="bg-gray-800">
+    <div className="container">
+    <div className="p-4 rounded-lg ">
             {user && user.name ? (          
                 <div className=" flex justify-around text-2xl text-white font-semibold bg-gradient-to-r from-blue-500 to-blue-300 p-2 rounded-lg">
                     <div>Welcome, {user.name.split(" ")[0].charAt(0).toUpperCase() + user.name.split(" ")[0].slice(1)+" "}!</div>
@@ -55,17 +64,39 @@ const Home = () => {
             )}
         </div>
 
-            <div className="post-container">
-            {posts.map((post) => (
-                <div key={post._id} className="border-3 border-black m-3">
-                    <h2>{post.title}</h2>
-                    <p>{post.detail}</p>
-                    <p>{post.author}</p>
+      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {currentPosts.map((post) => (
+          <div key={post._id} className="col">
+            <div className="card h-100 border border-primary rounded shadow bg-blue-300">
+              <div className="card-body d-flex flex-column justify-content-between">
+                <div className="">
+                  <div className="bg-slate-600 w-fit px-4 py-1 text-3xl rounded-2xl text-white"><h5 className="card-title">{post.title}</h5></div>
+                  <div className="bg-white my-2 h-28 p-3 rounded-2xl">
+                  <p className="card-text">{post.detail.slice(0,30)}. . .</p>
+                  </div>
                 </div>
-            ))}
+                <div>
+                  <div className=" ml-1 bg-black w-fit rounded-lg text-lg"><p className="card-text text-white px-3 py-1" >Author: {post.author}</p></div>
+                  <div className="ml-3 mt-2">Created : {timeSince(post.createdAt)}</div>
+                </div>
+                <div className="flex flex-row-reverse">
+                <Link to={`viewPost/${post._id}`}>
+                      <button type="button" className="btn btn-primary mx-1">
+                        View More
+                      </button>
+                    </Link>
+                </div>
+              </div>
             </div>
-        </div>
-    );
+          </div>
+        ))}
+      </div>
+
+      
+    </div>
+    </div>
+    </>
+  );
 };
 
 export default Home;

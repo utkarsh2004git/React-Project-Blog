@@ -14,6 +14,8 @@ const home= async(req,res)=>{
     }
 };
 
+
+
 const register= async(req,res)=>{
     try{
         const {name,email,password,role,gender}=req.body;
@@ -77,6 +79,8 @@ const user = async(req,res)=>{
         console.log("Error ",err);
     }
 }
+
+
 
 
 const authcontrollers={ home, register,login,user } 

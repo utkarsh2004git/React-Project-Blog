@@ -172,7 +172,11 @@ const YourPosts = () => {
                   )
                 }
                 <td>
-                  <button className="btn btn-info text-black">View</button>
+                <Link to={`/viewPost/${post._id}`}>
+                      <button type="button" className="btn btn-primary mx-1">
+                        View
+                      </button>
+                    </Link>
                 </td>
               </tr>
             ))}
