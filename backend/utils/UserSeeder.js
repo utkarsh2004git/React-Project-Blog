@@ -1,7 +1,8 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import User from "../src/models/user-model.js";
-import bcrypt from "bcryptjs"
+import bcrypt from "bcryptjs";
+import Post from '../src/models/post-model.js';
 
 const { DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_HOST, DATABASE_NAME } = process.env;
 
@@ -14,21 +15,31 @@ const options = {
   dbName: DATABASE_NAME,
 };
 
-(async () => {
+const seedUsers = async () => {
   try {
     await mongoose.connect(url, options);
 
-    let users=[];
-    const user1={
-      name: `utkarsh`,
-      email: `utkarsh@123`,
-      password: '123',
-      gender:'Male', 
-      role: 'Admin',
-    }
-    users.push(user1);
+    const userId1 = new mongoose.Types.ObjectId();
+    const userId2 = new mongoose.Types.ObjectId();
 
-
+    let users = [
+      {
+        _id: userId1,
+        name: 'Utkarsh',
+        email: 'utkarsh@123',
+        password: '123',
+        gender: 'Male',
+        role: 'Admin',
+      },
+      {
+        _id: userId2,
+        name: 'My_Utkarsh',
+        email: 'myutkarsh@123',
+        password: '123',
+        gender: 'Male',
+        role: 'Admin',
+      }
+    ];
     for (let i = 0; i < 20; i++) {
       const user = {
         name: `User ${i + 1}`,
@@ -36,26 +47,63 @@ const options = {
         password: 'password123', 
         gender: i % 2 === 0 ? 'Male' : 'Female', 
         role: i %4 === 0 ? 'Admin' : 'User',
-      };
+      }
       users.push(user);
     }
-
-    // Clear existing users (optional)
-    await User.deleteMany({});
-
-    // Hash passwords before saving
-    for (const user of users) {
+    
+    const hashedUsers = await Promise.all(users.map(async (user) => {
       user.password = await bcrypt.hash(user.password, 10);
-    }
+      return user;
+    }));
 
-    // Save each user to the database
-    await User.insertMany(users);
+    // Save users to the database
+    await User.deleteMany({});
+    await User.insertMany(hashedUsers);
 
     console.log('Users seeded successfully!');
-    process.exit(0); // Exit process after seeding
-
   } catch (error) {
     console.error('Error seeding users:', error);
-    process.exit(1); // Exit with error code
+  } finally {
+    // Disconnect from the database after seeding
+    await mongoose.disconnect();
   }
+};
+
+const seedPosts = async () => {
+  try {
+    console.log("Connecting to database...");
+    await mongoose.connect(url, options);
+
+    const users = await User.find({}, '_id name');
+
+    const posts = [];
+
+    for (let i = 0; i < 25; i++) {
+      const user = i % 2 === 0 ? users[0] : users[1];
+      const post = {
+        userId: user._id.toString(),
+        author: user.name,
+        title: `Post ${i + 1}`,
+        detail: `This is Detail --- ${i + 1}`,
+      };
+      posts.push(post);
+    }
+
+
+
+    await Post.deleteMany({});
+    await Post.insertMany(posts);
+
+    console.log('Posts seeded successfully!');
+  } catch (error) {
+    console.error('Error seeding posts:', error);
+  } finally {
+    console.log("Disconnecting from database...");
+    await mongoose.disconnect();
+  }
+};
+
+(async () => {
+  await seedUsers();
+  await seedPosts();
 })();
