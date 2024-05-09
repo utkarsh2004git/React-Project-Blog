@@ -182,6 +182,7 @@ const YourPosts = () => {
             ))}
           </tbody>
         </table>
+        
       </div>
     </>
   );
