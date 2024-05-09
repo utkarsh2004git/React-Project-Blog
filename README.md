@@ -13,11 +13,14 @@
 
 ## Create frontend and backend folders
 
+**Create Project**
+```bash
+npm create vite@latest [your project name]
+```
 
 1. **frontend folder**
 
 ```bash
-npm create vite@latest [your project name]
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 ```
